@@ -47,7 +47,7 @@ jobs:
         run: |
           ssh ${{ secrets.ORACLE_CLOUD_HOST }} << EOF        
           ls -l /home/${{ secrets.ORACLE_CLOUD_USER }}/asterisk/
-          sudo chown -R asterisk:asterisk /home/opc/asterisk/
+          sudo chown -R opc:opc /home/opc/asterisk/
           sudo chmod -R 640 /home/opc/asterisk/*     
           EOF
 
