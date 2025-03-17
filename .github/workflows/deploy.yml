@@ -29,9 +29,10 @@ jobs:
       # Step 3: Upload Configuration Files for Asterisk
       - name: Upload Asterisk Configuration Files
         run: |          
-          scp -v pjsip.conf ${{ secrets.ORACLE_CLOUD_HOST }}:/home/${{ secrets.ORACLE_CLOUD_USER }}/asterisk/pjsip.conf
-          scp -v extensions.conf ${{ secrets.ORACLE_CLOUD_HOST }}:/home/${{ secrets.ORACLE_CLOUD_USER }}/asterisk/extensions.conf
-          scp -v update-asterisk.sh ${{ secrets.ORACLE_CLOUD_HOST }}:/home/${{ secrets.ORACLE_CLOUD_USER }}/asterisk/update-asterisk.sh                
+          scp -v ./pjsip.conf ${{ secrets.ORACLE_CLOUD_HOST }}:/home/${{ secrets.ORACLE_CLOUD_USER }}/asterisk/pjsip.conf
+          scp -v ./extensions.conf ${{ secrets.ORACLE_CLOUD_HOST }}:/home/${{ secrets.ORACLE_CLOUD_USER }}/asterisk/extensions.conf
+          scp -v ./rtp.conf ${{ secrets.ORACLE_CLOUD_HOST }}:/home/${{ secrets.ORACLE_CLOUD_USER }}/asterisk/rtp.conf
+          scp -v ./update-asterisk.sh ${{ secrets.ORACLE_CLOUD_HOST }}:/home/${{ secrets.ORACLE_CLOUD_USER }}/asterisk/update-asterisk.sh                
 
       # Step 4: Run Command to Check File on Oracle Cloud Server
       - name: Run Commands
