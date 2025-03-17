@@ -14,6 +14,9 @@ jobs:
         
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        
        # Step 1: Set up SSH Key and Config
       - name: Set up SSH
         run: |
