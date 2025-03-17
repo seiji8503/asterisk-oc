@@ -64,6 +64,6 @@ jobs:
       - name: Apply Asterisk Configuration Changes
         run: |
           ssh ${{ secrets.ORACLE_CLOUD_HOST }} << EOF
-          chmod +x /home/${{ secrets.ORACLE_CLOUD_USER }}/update-asterisk.sh
-          sudo /home/${{ secrets.ORACLE_CLOUD_USER }}/update-asterisk.sh
+          chmod +x /home/${{ secrets.ORACLE_CLOUD_USER }}/asterisk/update-asterisk.sh
+          sudo /home/${{ secrets.ORACLE_CLOUD_USER }}/asterisk/update-asterisk.sh
           EOF
