@@ -14,9 +14,11 @@ jobs:
         
 
     steps:
+
+        # Step 0: Mandatory Checkout Repository
       - name: Checkout repository
         uses: actions/checkout@v3
-        
+
        # Step 1: Set up SSH Key and Config
       - name: Set up SSH
         run: |
@@ -29,16 +31,16 @@ jobs:
       - name: Test SSH Connection
         run: ssh ${{ secrets.ORACLE_CLOUD_HOST }} hostname
 
-      - name: List repository files
+      - name: List repository files 
         run: ls -R  
     
       # Step 3: Upload Configuration Files for Asterisk
       - name: Upload Asterisk Configuration Files
         run: |          
-          scp -v $GITHUB_WORKSPACE/pjsip.conf ${{ secrets.ORACLE_CLOUD_HOST }}:/home/${{ secrets.ORACLE_CLOUD_USER }}/asterisk/pjsip.conf
-          scp -v $GITHUB_WORKSPACE/extensions.conf ${{ secrets.ORACLE_CLOUD_HOST }}:/home/${{ secrets.ORACLE_CLOUD_USER }}/asterisk/extensions.conf
-          scp -v $GITHUB_WORKSPACE/rtp.conf ${{ secrets.ORACLE_CLOUD_HOST }}:/home/${{ secrets.ORACLE_CLOUD_USER }}/asterisk/rtp.conf
-          scp -v $GITHUB_WORKSPACE/update-asterisk.sh ${{ secrets.ORACLE_CLOUD_HOST }}:/home/${{ secrets.ORACLE_CLOUD_USER }}/asterisk/update-asterisk.sh                
+          scp -v ${{ github.workspace }}/pjsip.conf ${{ secrets.ORACLE_CLOUD_HOST }}:/home/${{ secrets.ORACLE_CLOUD_USER }}/asterisk/pjsip.conf
+          scp -v ${{ github.workspace }}/extensions.conf ${{ secrets.ORACLE_CLOUD_HOST }}:/home/${{ secrets.ORACLE_CLOUD_USER }}/asterisk/extensions.conf
+          scp -v ${{ github.workspace }}/rtp.conf ${{ secrets.ORACLE_CLOUD_HOST }}:/home/${{ secrets.ORACLE_CLOUD_USER }}/asterisk/rtp.conf
+          scp -v ${{ github.workspace }}/update-asterisk.sh ${{ secrets.ORACLE_CLOUD_HOST }}:/home/${{ secrets.ORACLE_CLOUD_USER }}/asterisk/update-asterisk.sh
 
       # Step 4: Run Command to Check File on Oracle Cloud Server
       - name: Run Commands
