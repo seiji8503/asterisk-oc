@@ -37,7 +37,7 @@ jobs:
       - name: Run Commands
         run: |
           ssh ${{ secrets.ORACLE_CLOUD_HOST }} << EOF        
-          ls -l /home/${{ secrets.ORACLE_CLOUD_USER }}/lorawan-proc-go          
+          ls -l /home/${{ secrets.ORACLE_CLOUD_USER }}/asterisk/          
           EOF
 
       # Step 5: Run Asterisk Configuration Update Script

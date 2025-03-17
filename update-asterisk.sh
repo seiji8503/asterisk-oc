@@ -15,7 +15,7 @@ YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
 # Define file paths
-CONFIG_DIR="/home/opc"
+CONFIG_DIR="/home/opc/asterisk"
 ASTERISK_DIR="/etc/asterisk"
 PJSIP_FILE="pjsip.conf"
 EXTENSIONS_FILE="extensions.conf"
