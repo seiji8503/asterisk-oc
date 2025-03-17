@@ -27,7 +27,7 @@ update_config() {
   # Check if source file exists
   if [ ! -f "${CONFIG_DIR}/${file}" ]; then
     echo -e "${RED}Error: Source file ${CONFIG_DIR}/${file} not found${NC}"
-    return 1
+    exit 1  # Force failure in pipeline
   fi
   
   # Backup existing file if it exists
