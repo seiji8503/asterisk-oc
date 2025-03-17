@@ -1,0 +1,49 @@
+name: CI/CD Pipeline for Asterisk Config
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        
+
+    steps:
+       # Step 1: Set up SSH Key and Config
+      - name: Set up SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.ORACLE_CLOUD_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa          
+          echo -e "Host ${{ secrets.ORACLE_CLOUD_HOST }}\n\tStrictHostKeyChecking no\n\tUser ${{ secrets.ORACLE_CLOUD_USER }}\n\tHostname ${{ secrets.ORACLE_CLOUD_HOST }}" > ~/.ssh/config
+
+      # Step 2: Test SSH Connection
+      - name: Test SSH Connection
+        run: ssh ${{ secrets.ORACLE_CLOUD_HOST }} hostname
+    
+      # Step 3: Upload Configuration Files for Asterisk
+      - name: Upload Asterisk Configuration Files
+        run: |          
+          scp -v Asterisk\ Oracle\ Cloud\ -\ pjsip.conf ${{ secrets.ORACLE_CLOUD_HOST }}:/home/${{ secrets.ORACLE_CLOUD_USER }}/pjsip.conf
+          scp -v Asterisk\ Oracle\ Cloud\ -\ extensions.conf ${{ secrets.ORACLE_CLOUD_HOST }}:/home/${{ secrets.ORACLE_CLOUD_USER }}/extensions.conf
+          scp -v update-asterisk.sh ${{ secrets.ORACLE_CLOUD_HOST }}:/home/${{ secrets.ORACLE_CLOUD_USER }}/update-asterisk.sh                
+
+      # Step 4: Run Command to Check File on Oracle Cloud Server
+      - name: Run Commands
+        run: |
+          ssh ${{ secrets.ORACLE_CLOUD_HOST }} << EOF        
+          ls -l /home/${{ secrets.ORACLE_CLOUD_USER }}/lorawan-proc-go          
+          EOF
+
+      # Step 5: Run Asterisk Configuration Update Script
+      - name: Apply Asterisk Configuration Changes
+        run: |
+          ssh ${{ secrets.ORACLE_CLOUD_HOST }} << EOF
+          chmod +x /home/${{ secrets.ORACLE_CLOUD_USER }}/update-asterisk.sh
+          sudo /home/${{ secrets.ORACLE_CLOUD_USER }}/update-asterisk.sh
+          EOF
